@@ -1,8 +1,11 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //helper functions
 import validate from "./validate";
+
+//styles
+import styles from "./SignUp.module.css";
 
 const SignUp = () => {
   const [data, setData] = useState({
@@ -13,12 +16,12 @@ const SignUp = () => {
     isAccepted: false,
   });
 
-  const [errors , setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
   useEffect(() => {
-    setErrors(validate (data , 'signUp') ) ;
-  } , [data , touched])
+    setErrors(validate(data, "signUp"));
+  }, [data, touched]);
 
   const changeHandler = (event) => {
     if (event.target.name === "isAccepted") {
@@ -33,12 +36,17 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <form>
-        <h1>Sign Up</h1>
-        <div>
+    <div className={styles.container}>
+      <form className={styles.formContainer}>
+        <h1 className={styles.header}>Sign Up</h1>
+        <div className={styles.formField}>
           <label>Name</label>
           <input
+          className={
+            errors.name && touched.name
+              ? styles.uncompleted
+              : styles.formInput
+          }
             type="text"
             placeholder="Enter your name"
             name="name"
@@ -46,11 +54,16 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           />
-          { errors.name && touched.name && <span>{errors.name}</span> }
+          {errors.name && touched.name && <span>{errors.name}</span>}
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Email</label>
           <input
+          className={
+            errors.email && touched.email
+              ? styles.uncompleted
+              : styles.formInput
+          }
             type="text"
             placeholder="Enter your email"
             name="email"
@@ -58,11 +71,16 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           />
-          { errors.email && touched.email && <span>{errors.email}</span> }
+          {errors.email && touched.email && <span>{errors.email}</span>}
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Password</label>
           <input
+          className={
+            errors.password && touched.password
+              ? styles.uncompleted
+              : styles.formInput
+          }
             type="password"
             placeholder="Enter a password"
             name="password"
@@ -70,11 +88,18 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           />
-          { errors.password && touched.password && <span>{errors.password}</span> }
+          {errors.password && touched.password && (
+            <span>{errors.password}</span>
+          )}
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Conform Password</label>
           <input
+          className={
+            errors.confirmPassword && touched.confirmPassword
+              ? styles.uncompleted
+              : styles.formInput
+          }
             type="password"
             placeholder="Enter your password again"
             name="confirmPassword"
@@ -82,12 +107,15 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           />
-          { errors.confirmPassword && touched.confirmPassword && <span>{errors.confirmPassword}</span> }
+          {errors.confirmPassword && touched.confirmPassword && (
+            <span>{errors.confirmPassword}</span>
+          )}
         </div>
-        <div>
-          <div>
+        <div className={styles.formField}>
+          <div className={styles.checkBoxContainer}>
             <label>I accept terms of privacy policy</label>
             <input
+              
               type="checkbox"
               name="isAccepted"
               value={data.isAccepted}
@@ -95,11 +123,13 @@ const SignUp = () => {
               onFocus={focusHandler}
             />
           </div>
-          { errors.isAccepted && touched.isAccepted && <span>{errors.isAccepted}</span> }
+          {errors.isAccepted && touched.isAccepted && (
+            <span>{errors.isAccepted}</span>
+          )}
         </div>
-        <div>
-            <Link to='/login' >Log in</Link>
-            <button type="submit" >Sign Up</button>
+        <div className={styles.formButtons}>
+          <Link to="/login">Log in</Link>
+          <button type="submit">Sign Up</button>
         </div>
       </form>
     </div>
