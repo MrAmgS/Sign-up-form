@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 //helper functions
 import validate from "./validate";
 
+//Toastify 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { notify } from "./toast";
+
 //styles
 import styles from "./SignUp.module.css";
 
@@ -35,9 +40,26 @@ const SignUp = () => {
     setTouched({ ...touched, [event.target.name]: true });
   };
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (!Object.keys(errors).length) {
+      notify ('Submited Successfully' , 'success')
+    } else {
+      notify ("Please fill up all Fields" , 'error' )
+      setTouched ({
+        name: true,
+        email: true,
+        password: true,
+        confirmPassword: true,
+        isAccepted: true,
+      })
+    }
+
+  }
+
   return (
     <div className={styles.container}>
-      <form className={styles.formContainer}>
+      <form className={styles.formContainer} onSubmit={submitHandler}>
         <h1 className={styles.header}>Sign Up</h1>
         <div className={styles.formField}>
           <label>Name</label>
@@ -132,6 +154,7 @@ const SignUp = () => {
           <button type="submit">Sign Up</button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };
